@@ -16,8 +16,15 @@ router.route('/:id_leitor([0-9]+)')
         res.json({ mensagem: 'deleta 1' })
     });
 
+router.use((req, res, next) => {
+    if(req.security.permissao === 'leitor') next();
+    else {
+        res.status(401).json({mensagem: 'Você não tem permissão para este recurso'})
+    }
+});
 router.route('/')
     .get((req, res) => {
+        console.log(req);
         res.json({ mensagem: 'busca todos' })
     })
     .put((req, res) => {

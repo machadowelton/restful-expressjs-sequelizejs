@@ -40,10 +40,36 @@ module.exports = {
             } else {
                 const token = authorization.split(' ')[1];
                 jwt.verify(token, secret_key, (err, decoded) => {
-                    if(!err) {
+                    if (!err) {
+                        req.security = {
+                            email: decoded.data.email,
+                            permissao: decoded.data.permissao
+                        }
                         next();
                     } else {
-                        res.json(err);
+                        switch (err.name) {
+                            case 'TokenExpiredError':
+                                res.status(400).json({ mensagem: 'Token expirou' });
+                                break;
+                            case 'JsonWebTokenError':
+                                switch (err.message) {
+                                    case 'jwt malformed':
+                                        res.status(400).json({ mensagem: 'Token mal formado' });
+                                        break;
+                                    case 'jwt signature is required':
+                                        res.status(400).json({ mensagem: 'Token não assinado' });
+                                        break;
+                                    case 'invalid signature':
+                                        res.status(400).json({ mensagem: 'Assinatura do token inválida' });
+                                        break;
+                                    default:
+                                        res.status(400).json({ mensagem: 'Token inválido' });
+                                        break;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 });
             }
