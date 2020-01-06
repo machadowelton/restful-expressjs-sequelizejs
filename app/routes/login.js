@@ -1,24 +1,25 @@
 const express = require('express');
+
 const router = express.Router();
 const jwtManager = require('../sec/jwtManager');
+const Usuario = require('../services/usuario');
 
-router.get('/', (req, res) => {
-    const [hash_type, hash] = req.headers.authorization.split(' ');
-    const [email, senha] = Buffer.from(hash, 'base64').toString().split(':');
-    const usuario = {
-        id: 1,
-        email: email,
-        permissao: 'leitor'
-    }
-    jwtManager.gerarToken(usuario)
-        .then((token) => {
-            res.json({
-                jwt: token
-            });
-        })
-        .catch((err) => {
-            res.json(err);
-        });
+router.get('/', async (req, res) => {
+  const hash = req.headers.authorization.split(' ')[1];
+  const [email, senha] = Buffer.from(hash, 'base64')
+    .toString()
+    .split(':');
+  try {
+    const usuario = await Usuario.validarUsuarioSenha(email, senha);
+    const token = await jwtManager.gerarToken(usuario);
+    res.json({
+      tokenJWT: token,
+    });
+  } catch (error) {
+    res.status(400).json({
+      erro: error,
+    });
+  }
 });
 
 module.exports = router;
