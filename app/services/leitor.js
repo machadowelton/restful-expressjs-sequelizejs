@@ -1,5 +1,5 @@
 const { Leitor } = require('../models');
-const Usuario = require('../services/usuario');
+const Usuario = require('./usuario');
 
 module.exports = {
   async inserir(leitor) {

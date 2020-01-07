@@ -2,17 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 const jwtManager = require('../sec/jwtManager');
-// const Leitor = require('../services/leitor')
-
-// route_cadastro.post((req, res) => {
-//     Leitor.inserir(req.boody)
-//         .then(() => {
-//             res.status(201).end();
-//         })
-//         .catch((err) => {
-//             res.status(500).end();
-//         });
-// });
 
 router.use(jwtManager.validarToken);
 router.use((req, res, next) => {

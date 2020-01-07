@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'UsuarioId',
       as: 'usuario',
     });
+    Usuario.hasOne(models.Operador, {
+      foreignKey: 'UsuarioId',
+      as: 'usuario',
+    });
   };
   return Usuario;
 };
