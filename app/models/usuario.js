@@ -11,14 +11,18 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Usuario.associate = function(models) {
-    Usuario.hasOne(models.Leitor, {
-      foreignKey: 'UsuarioId',
-      as: 'usuario',
-    });
-    Usuario.hasOne(models.Operador, {
-      foreignKey: 'UsuarioId',
-      as: 'usuario',
-    });
+    Usuario.hasOne(
+      models.Leitor,
+      {
+        foreignKey: 'UsuarioId',
+        as: 'usuario',
+      },
+      models.Operador,
+      {
+        foreignKey: 'UsuarioId',
+        as: 'usuario',
+      }
+    );
   };
   return Usuario;
 };

@@ -13,4 +13,26 @@ module.exports = {
       throw new Error('Ocorreu um erro');
     }
   },
+  async buscarPorId(idLeitor) {
+    try {
+      //const leitor = await Leitor.findByPk(idLeitor);
+      const leitor = await Leitor.findOne({
+        attributes: { exclude: ['UsuarioId'] },
+        where: {
+          id: idLeitor,
+        },
+      });
+      // const prop = ['UsuarioId'];
+      // const newLeitor = Object.keys(leitor.dataValues).reduce((object, key) => {
+      //   if (!prop.includes(key)) {
+      //     object[key] = leitor[key];
+      //   }
+      //   return object;
+      // }, {});
+      // return newLeitor;
+      return leitor;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };

@@ -11,6 +11,10 @@ module.exports = {
       nome: {
         type: Sequelize.STRING
       },
+      sobrenome: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       email: {
         type: Sequelize.STRING
       },

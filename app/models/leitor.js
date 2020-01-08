@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       dat_nascimento: DataTypes.DATE,
       email: DataTypes.STRING,
       cpf: DataTypes.STRING,
-      UsuarioId: DataTypes.INTEGER,
     },
     {}
   );
