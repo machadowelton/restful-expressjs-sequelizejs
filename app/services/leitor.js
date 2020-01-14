@@ -15,7 +15,7 @@ module.exports = {
   },
   async buscarPorId(idLeitor) {
     try {
-      //const leitor = await Leitor.findByPk(idLeitor);
+      // const leitor = await Leitor.findByPk(idLeitor);
       const leitor = await Leitor.findOne({
         attributes: { exclude: ['UsuarioId'] },
         where: {

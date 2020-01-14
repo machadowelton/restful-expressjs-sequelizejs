@@ -6,8 +6,10 @@ module.exports = {
     try {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(usuario.senha, salt);
-      usuario.salt = salt;
-      usuario.senha = hash;
+      // usuario.salt = salt;
+      // usuario.senha = hash;
+      // eslint-disable-next-line no-param-reassign
+      [usuario.salt, usuario.senha] = [salt, hash];
       return await Usuario.create(usuario);
     } catch (error) {
       throw new Error(error);

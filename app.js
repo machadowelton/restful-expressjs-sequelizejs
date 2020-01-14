@@ -1,22 +1,8 @@
 const express = require('express');
 const compression = require('compression');
 const bodyparser = require('body-parser');
-const cors = require('cors');
-
-const whitelist = ['http://localhost', 'localhost:8080', 'localhost'];
-const corsOptions = {
-  origin: (origin, callback) => {
-    console.log('aaaaaaaaaaaaaaaaaa');
-    console.log(origin);
-    if (whitelist.indexOf(origin) !== -1) {
-      console.log('acertor');
-      callback(null, true);
-    } else {
-      console.log('error');
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
+const swaggerUi = require('swagger-ui-express');
+const configDocumentation = require('./app/config/swagger-config');
 
 const routerLogin = require('./app/routes/login');
 const routerLeitor = require('./app/routes/leitor');
@@ -35,9 +21,7 @@ routerStatus.get('/', (req, res) => {
   res.json({ mensagem: 'ok' });
 });
 
-app.get('/', cors(corsOptions), (req, res, next) => {
-  res.json({ mensagem: 'ok' });
-});
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(configDocumentation));
 app.use('/rest/status', routerStatus);
 app.use('/rest/login', routerLogin);
 app.use('/rest/leitor', routerLeitor);
